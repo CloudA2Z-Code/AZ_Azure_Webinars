@@ -1,0 +1,5 @@
+# Create a registry
+az acr create --name myregistry --resource-group mygroup --sku standard --admin-enabled true
+
+# Use Container Registry to build images. Instead of building an image yourself and pushing it to Container Registry, use the CLI to upload the Docker file and other files that make up your image. Container Registry will then build the image for you. Use the acr build command to run a build:
+az acr build --file Dockerfile --registry myregistry --image myimage
