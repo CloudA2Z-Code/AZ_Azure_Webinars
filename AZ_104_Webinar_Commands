@@ -3,3 +3,12 @@ az acr create --name myregistry --resource-group mygroup --sku standard --admin-
 
 # Use Container Registry to build images. Instead of building an image yourself and pushing it to Container Registry, use the CLI to upload the Docker file and other files that make up your image. Container Registry will then build the image for you. Use the acr build command to run a build:
 az acr build --file Dockerfile --registry myregistry --image myimage
+
+### Build a Docker image and upload it to Azure Container Registry
+git clone https://github.com/MicrosoftDocs/mslearn-deploy-run-container-app-service.git
+
+# 
+cd mslearn-deploy-run-container-app-service/dotnet
+
+#
+az acr build --registry <container_registry_name> --image webimage .
