@@ -4,7 +4,7 @@ az acr create --name ACRRAG --resource-group girish-rg-01 --sku standard --admin
 # Use Container Registry to build images. Instead of building an image yourself and pushing it to Container Registry, use the CLI to upload the Docker file and other files that make up your image. Container Registry will then build the image for you. Use the acr build command to run a build:
 az acr build --file Dockerfile --registry myregistry --image myimage
 
-### Build a Docker image and upload it to Azure Container Registry
+### Exercise - Build a Docker image and upload it to Azure Container Registry
 git clone https://github.com/MicrosoftDocs/mslearn-deploy-run-container-app-service.git
 
 # 
@@ -27,3 +27,47 @@ mv Index.cshtml.new Index.cshtml
 # Rebuild the image for the web app and push it to Container Registry
 cd ~/mslearn-deploy-run-container-app-service/dotnet
 az acr build --registry ACRRAG --image webimage .
+
+### Exercise - Scale a web app manually
+
+## Build and deploy the web app
+
+git clone https://github.com/MicrosoftDocs/mslearn-hotel-reservation-system.git
+
+cd mslearn-hotel-reservation-system/src
+
+dotnet build
+
+cd HotelReservationSystem
+dotnet publish -o website
+
+# Deploy them to the web app that you created in the previous task
+cd website
+zip website.zip *
+az webapp deployment source config-zip --src website.zip --name hotelsystemTAG --resource-group mslearn-scale
+
+Go to http://hotelsystemTAG.azurewebsites.net/api/reservations/1
+
+## Monitor the performance of the web app before scaling out
+
+cd ~/mslearn-hotel-reservation-system/src/HotelReservationSystemTestClient
+
+code App.config
+
+Replace the below Code:
+-----------------------
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <appSettings>
+        <add key="NumClients" value="100" />
+        <add key="ReservationsServiceURI" value="https://hotelsystemTAG.azurewebsites.net/"/>
+        <add key="ReservationsServiceCollection" value="api/reservations"/>
+    </appSettings>
+</configuration>
+
+dotnet build
+
+# Run the client app.
+dotnet run
+
+
