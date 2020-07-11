@@ -72,6 +72,20 @@ dotnet run
 
 ### Exercise - Run Azure Container Instances
 DNS_NAME_LABEL=aci-demo-$RANDOM
+
+# Refers to a Docker image hosted on Docker Hub that runs a basic Node.js web application.
 az container create --resource-group girish-rg-01 --name mycontainer --image microsoft/aci-helloworld --ports 80 --dns-name-label $DNS_NAME_LABEL --location westeurope
+az container show --resource-group girish-rg-01 --name mycontainer --query "{FQDN:ipAddress.fqdn,ProvisioningState:provisioningState}" --out table
+
+### Exercise - Control restart behavior
+az container create --resource-group girish-rg-01 --name mycontainer-restart-demo --image microsoft/aci-wordcount:latest --restart-policy OnFailure --location westeurope
+
+# status - Repeat the command until it reaches the Terminated status.
+az container show --resource-group girish-rg-01 --name mycontainer-restart-demo --query containers[0].instanceView.currentState.state
+
+# logs
+az container logs --resource-group girish-rg-01 --name mycontainer-restart-demo
+
+
 
 
