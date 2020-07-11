@@ -70,4 +70,8 @@ dotnet build
 # Run the client app.
 dotnet run
 
+### Exercise - Run Azure Container Instances
+DNS_NAME_LABEL=aci-demo-$RANDOM
+az container create --resource-group girish-rg-01 --name mycontainer --image microsoft/aci-helloworld --ports 80 --dns-name-label $DNS_NAME_LABEL --location westeurope
+
 
