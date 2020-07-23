@@ -86,6 +86,20 @@ az container show --resource-group girish-rg-01 --name mycontainer-restart-demo 
 # logs
 az container logs --resource-group girish-rg-01 --name mycontainer-restart-demo
 
+#### Login to AKS cluster
+# AKS Cluster creation command my_sub
+az account set -s my_sub
+
+# Get Credentials which will set kubeconfig
+az aks get-credentials -g girish-rg-01 -n my-aks-001 --subscription "my_sub" --admin
+
+#### AKS V1 - Cluster Creation Commands
+### AKS NON-RBAC Cluster command - Azure CNI
+az aks create -g girish-rg-01 -n my-aks-001 -l westeurope --kubernetes-version 1.15.10 --generate-ssh-keys --service-cidr 10.0.0.0/16 --dns-service-ip 10.0.0.10 --docker-bridge-address 172.17.0.1/16 --network-plugin azure --vnet-subnet-id /subscriptions/'my_subscription'/subnets/publc-dev-move-iot-snet-001 --disable-rbac --service-principal 'my_sp' --client-secret 'my_sp_secret' --aad-tenant-id 'my_AAD_TID' --attach-acr /subscriptions/'mysubscription'/providers/Microsoft.ContainerRegistry/registries/myregistry --enable-addons monitoring --max-pods 250 --enable-cluster-autoscaler --min-count 3 --max-count 10 --node-vm-size Standard_DS3_v2 --vm-set-type VirtualMachineScaleSets --load-balancer-sku standard
+
+### AKS NON-RBAC V1 Cluster Creation Command - KubeNet
+# Below command creatse cluster with Kubenet + Custom Route Table associated Subnet (i.e. --vnet-subnet-id) + Max Pods to 250 + Max Node Counts
+
 
 
 
