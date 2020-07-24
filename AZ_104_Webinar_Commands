@@ -126,6 +126,9 @@ kubectl get pods --namespace yb-demo
 # Get SVC
 kubectl get services --namespace yb-demo
 
+# Cleanup created resources
+kubectl delete ns yb-demo
+
 
 
 
