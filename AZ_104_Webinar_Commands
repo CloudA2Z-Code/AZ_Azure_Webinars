@@ -83,29 +83,19 @@ Replace the below Code:
 </configuration>
 
 dotnet build
-
 # Run the client app.
 dotnet run
-
 # Go to web app monitor and see the requests coming
 
 ### After scaling out
+# Let’s Scale out and see performance improvements
 
-### Exercise - Run Azure Container Instances
-DNS_NAME_LABEL=aci-demo-$RANDOM
+### After Scale UP
+Lets’ Scale up a web app and load test !
 
-# Refers to a Docker image hosted on Docker Hub that runs a basic Node.js web application.
-az container create --resource-group girish-rg-01 --name mycontainer --image microsoft/aci-helloworld --ports 80 --dns-name-label $DNS_NAME_LABEL --location westeurope
-az container show --resource-group girish-rg-01 --name mycontainer --query "{FQDN:ipAddress.fqdn,ProvisioningState:provisioningState}" --out table
 
-### Exercise - Control restart behavior
-az container create --resource-group girish-rg-01 --name mycontainer-restart-demo --image microsoft/aci-wordcount:latest --restart-policy OnFailure --location westeurope
-
-# status - Repeat the command until it reaches the Terminated status.
-az container show --resource-group girish-rg-01 --name mycontainer-restart-demo --query containers[0].instanceView.currentState.state
-
-# logs
-az container logs --resource-group girish-rg-01 --name mycontainer-restart-demo
+#### Lab 4: Azure Kubernetes Service cluster
+----------------------------------------------
 
 #### Login to AKS cluster
 # AKS Cluster creation command my_sub
@@ -124,7 +114,9 @@ az aks create -g girish-rg-01 -n my-aks-001 -l westeurope --kubernetes-version 1
 ## Access Kubernetes Dashboard
 az aks browse --resource-group girish-rg-01 --name my-aks-001
 
-### LAB 6
+
+#### Lab 5: Azure Kubernetes Service cluster Pods
+----------------------------------------------
 ## Run a simple DB (yugabytedb) POD
 # Add the Yugabyte charts repository
 helm repo add yugabytedb https://charts.yugabyte.com
@@ -147,6 +139,11 @@ kubectl get pods --namespace yb-demo
 # Get SVC
 kubectl get services --namespace yb-demo
 
+
+#### Lab 6: Scale containerized workloads in AKS
+----------------------------------------------
+
+## SANITATION
 # Cleanup created resources
 kubectl delete ns yb-demo
 
