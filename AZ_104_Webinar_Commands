@@ -42,33 +42,33 @@ mv Index.cshtml.new Index.cshtml
 cd ~/mslearn-deploy-run-container-app-service/dotnet
 
 az acr build --registry ACRTAG --image webimage .
-# once build is succedd it will trigger a new deployment into the webapp
+# once build is succeded it will trigger a new deployment into the webapp
 
 
-### Exercise - Scale a web app manually
+#### Lab 3: App Service scale up and scale out
+----------------------------------------------
+## Exercise - Scale a web app manually
+# show to scale
+
+## Exercise - Create an App Service plan and web app
 
 ## Build and deploy the web app
-
 git clone https://github.com/MicrosoftDocs/mslearn-hotel-reservation-system.git
-
 cd mslearn-hotel-reservation-system/src
-
 dotnet build
-
 cd HotelReservationSystem
 dotnet publish -o website
 
+## Created a new Web App and app service plan in the portal with webapp name as hotelsystemTAG
 # Deploy them to the web app that you created in the previous task
 cd website
 zip website.zip *
-az webapp deployment source config-zip --src website.zip --name hotelsystemTAG --resource-group mslearn-scale
+az webapp deployment source config-zip --src website.zip --name hotelsystemTAG --resource-group girish-rg-01
+# Go to http://hotelsystemTAG.azurewebsites.net/api/reservations/1
 
-Go to http://hotelsystemTAG.azurewebsites.net/api/reservations/1
-
+### Before scaling out
 ## Monitor the performance of the web app before scaling out
-
 cd ~/mslearn-hotel-reservation-system/src/HotelReservationSystemTestClient
-
 code App.config
 
 Replace the below Code:
@@ -77,7 +77,7 @@ Replace the below Code:
 <configuration>
     <appSettings>
         <add key="NumClients" value="100" />
-        <add key="ReservationsServiceURI" value="https://hotelsystemTAG.azurewebsites.net/"/>
+        <add key="ReservationsServiceURI" value="https://hotelsystemtag.azurewebsites.net/"/>
         <add key="ReservationsServiceCollection" value="api/reservations"/>
     </appSettings>
 </configuration>
@@ -86,6 +86,10 @@ dotnet build
 
 # Run the client app.
 dotnet run
+
+# Go to web app monitor and see the requests coming
+
+### After scaling out
 
 ### Exercise - Run Azure Container Instances
 DNS_NAME_LABEL=aci-demo-$RANDOM
