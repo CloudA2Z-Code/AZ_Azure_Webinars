@@ -1,24 +1,35 @@
 #### Lab 1: Deploy a Docker image by using the Azure Container Instance
 ------------------------------------------------------------------------
-#1 - Create a ACR(registry)
+##1 - Create a ACR(registry)
 az acr create --name ACRTAG --resource-group girish-rg-01 --sku standard --admin-enabled true
 
-#2 - Build a Docker image and upload it to Azure Container Registry
+##2 - Build a Docker image and upload it to Azure Container Registry
 # Use Container Registry to build images. Instead of building an image yourself and pushing it to Container Registry, use the CLI to upload the Docker file and other files that make up your image. Container Registry will then build the image for you. Use the acr build command to run a build:
-### Exercise - Build a Docker image and upload it to Azure Container Registry
+
+# Build a Docker image and upload it to Azure Container Registry
 git clone https://github.com/MicrosoftDocs/mslearn-deploy-run-container-app-service.git
+
 # Go to directory 
 cd mslearn-deploy-run-container-app-service/dotnet
+
 # Build the code
 az acr build --registry ACRTAG --image webimage .
 
-#3 - Deploy a web app by using an image from an Azure Container Registry repository
-# go to portal and create a webapp using created image in ACR
+##3 - Deploy a web app by using an image from an Azure Container Registry repository
+# go to portal and create a webapp using created image in ACR with and browse to see application
 
 [Additional command] ## Extend continuous integration to source control by using a Container Registry task
 az acr task create --registry ACRTAG --name buildwebapp --image webimage --context https://github.com/MicrosoftDocs/mslearn-deploy-run-container-app-service.git --branch master --file Dockerfile --git-access-token <access_token>
 
-## Update the web app and test the webhook
+#### Lab 2: Containerized web app & Azure App Service
+-----------------------------------------------------
+### Deployment automation into the web app(App service) on image update
+## Configure continuous deployment and create a webhook
+
+#4 - Update the image and automatically redeploy the web app
+# go to the portal --> webapp --> container settings --> On and save
+
+#5 Update the web app and test the webhook
 # Go to the dotnet/SampleWeb/Pages folder
 cd ~/mslearn-deploy-run-container-app-service/dotnet/SampleWeb/Pages
 
@@ -26,9 +37,13 @@ cd ~/mslearn-deploy-run-container-app-service/dotnet/SampleWeb/Pages
 mv Index.cshtml Index.cshtml.old
 mv Index.cshtml.new Index.cshtml
 
+# We changed the file so rebuild the code
 # Rebuild the image for the web app and push it to Container Registry
 cd ~/mslearn-deploy-run-container-app-service/dotnet
-az acr build --registry ACRRAG --image webimage .
+
+az acr build --registry ACRTAG --image webimage .
+# once build is succedd it will trigger a new deployment into the webapp
+
 
 ### Exercise - Scale a web app manually
 
