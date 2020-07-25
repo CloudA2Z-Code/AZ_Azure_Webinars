@@ -1,5 +1,5 @@
 #### Lab 1: Deploy a Docker image by using the Azure Container Instance
-------------------------------------------------------------------------
+=======================================================================
 ##1 - Create a ACR(registry)
 az acr create --name ACRTAG --resource-group girish-rg-01 --sku standard --admin-enabled true
 
@@ -21,8 +21,10 @@ az acr build --registry ACRTAG --image webimage .
 [Additional command] ## Extend continuous integration to source control by using a Container Registry task
 az acr task create --registry ACRTAG --name buildwebapp --image webimage --context https://github.com/MicrosoftDocs/mslearn-deploy-run-container-app-service.git --branch master --file Dockerfile --git-access-token <access_token>
 
+
+
 #### Lab 2: Containerized web app & Azure App Service
------------------------------------------------------
+=====================================================
 ### Deployment automation into the web app(App service) on image update
 ## Configure continuous deployment and create a webhook
 
@@ -46,7 +48,7 @@ az acr build --registry ACRTAG --image webimage .
 
 
 #### Lab 3: App Service scale up and scale out
-----------------------------------------------
+==============================================
 ## Exercise - Scale a web app manually
 # show to scale
 
@@ -94,9 +96,9 @@ dotnet run
 Lets’ Scale up a web app and load test !
 
 
-#### Lab 4: Azure Kubernetes Service cluster
-----------------------------------------------
 
+#### Lab 4: Azure Kubernetes Service cluster
+============================================
 #### Login to AKS cluster
 # AKS Cluster creation command my_sub
 az account set -s my_sub
@@ -115,8 +117,9 @@ az aks create -g girish-rg-01 -n my-aks-001 -l westeurope --kubernetes-version 1
 az aks browse --resource-group girish-rg-01 --name my-aks-001
 
 
+
 #### Lab 5: Azure Kubernetes Service cluster Pods
-----------------------------------------------
+==================================================
 ## Run a simple DB (yugabytedb) POD
 # Add the Yugabyte charts repository
 helm repo add yugabytedb https://charts.yugabyte.com
@@ -141,9 +144,10 @@ kubectl get services --namespace yb-demo
 
 
 #### Lab 6: Scale containerized workloads in AKS
-----------------------------------------------
+=================================================
 
 ## SANITATION
+==============
 # Cleanup created resources
 kubectl delete ns yb-demo
 
